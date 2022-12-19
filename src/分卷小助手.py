@@ -39,7 +39,7 @@ for i, file in enumerate(file_list):
     filename = f"{index}_{name}.{filetype}"
     os.rename(os.path.join(dir_path, file), os.path.join(new_dir, filename))
     # fpath = os.path.join(dir_path, field, filename)
-    fpath = os.path.join('..', field, filename)
+    fpath = os.path.join('./data', field, filename)
     csv_line = f"{index}, {name}, {fpath},-1"
     if field not in csvs.keys():
         csvs[field] = [csv_line]

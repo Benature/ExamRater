@@ -21,7 +21,18 @@
 
 <body>
     <div class="container-fluid">
-        <div class="d-flex justify-content-center" style="margin-top: 30px;">
+        <!-- <div class="d-flex justify-content-center" style="margin-bottom: 10px;"> -->
+        <div class="d-flex">
+            <input type="radio" name="os" id="win" value="win">Windows 系统</input>
+            <span style="width: 30px;"></span>
+            <input type="radio" name="os" id="mac" checked="checked" value="mac">macOS 系统</input>
+            <span style="width: 30px;"></span>
+            <span style="color:gray;">（加载图片失败再刷新页面修改这个选项）</span>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center" style="margin-top: 20px;">
             <fieldset class="form-group col-xs-3 col-lg-offset-3">
                 <input type="file" class="form-control" id="file-value">
             </fieldset>
@@ -31,6 +42,7 @@
             <table id="test-table"></table>
         </div> -->
     </div>
+
 
     <p href="https://github.com/Benature" align="center" class="text-center">Powered by 木一</p>
 
@@ -70,8 +82,6 @@
             <div class="d-flex justify-content-center">
                 <button class="btn btn-success" id="save" style="width:6rem">保存</button>
             </div>
-            <!-- <input value="阅卷"> -->
-            <!-- </form> -->
         </div>
     </div>
 </body>
@@ -80,8 +90,8 @@
     var index = 0;
     var WIDTH;
     var img = document.getElementById('img');
+    var FileName = "";
     var w, h;
-    // var viewer;
     var viewer = new Viewer(document.getElementById('img'), {
         inline: true,
         toolbar: false,
@@ -93,11 +103,8 @@
      * Render image 
     */
     function render() {
-        console.log(data[index])
-
-        // if (index != 0) {
         viewer.destroy()
-        // }
+
         $('#img').attr('src', data[index][2]);
         viewer = new Viewer(document.getElementById('img'), {
             inline: true,
@@ -140,7 +147,10 @@
 
     $("#upload-btn").click(function () {
         var files = document.getElementById("file-value").files;
-        data = readParseFiles(files, "utf-8", function (d) {
+        let filename = document.getElementById("file-value").files[0].name;
+        FileName = /([^\\\/]+)\.csv/g.exec(filename)[1];
+        let coding = $("input[name='os']:checked").get(0).value == "mac" ? "utf-8" : "gbk";
+        data = readParseFiles(files, coding, function (d) {
             data = d[0];
             console.log(data);
             data.sort(function (a, b) {
@@ -185,7 +195,7 @@
         var a = document.createElement('a');
         var blob = new Blob([csvContent], { 'type': 'application\/octet-stream' });
         a.href = window.URL.createObjectURL(blob);
-        a.download = '阅卷成绩.csv';
+        a.download = '阅卷成绩-' + FileName + '.csv';
         a.click()
 
     })
@@ -202,8 +212,9 @@
     $("#small").click(function () { viewer.zoom(-0.2); })
     $("#jump_prev").click(function () { index--; render(); })
     $("#jump_next").click(function () { index++; render(); })
+
     $(document).keyup(function (e) {
-        console.log(e.keyCode);
+        // console.log(e.keyCode);
         if (82 == e.keyCode && !e.shiftKey) {
             $("#rotate0").click();
         }

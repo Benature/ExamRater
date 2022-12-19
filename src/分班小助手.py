@@ -22,8 +22,8 @@ for i, file in enumerate(file_list):
     try:
         c = name2class[name]
         print(name, c)
-        new_dir = os.path.join(dir_path, str(c))
-        new_dir = os.path.join(new_dir, field)
+        new_dir = os.path.join(dir_path, str(c))  # 不携带 field 信息
+        new_dir = os.path.join(dir_path, str(c), field)  # 携带 field 信息
         if not os.path.exists(new_dir):
             os.makedirs(new_dir)
         os.rename(os.path.join(dir_path, file), os.path.join(new_dir, file))
