@@ -1,12 +1,16 @@
-//读取文件
-function readParseFiles(files, callback) {
+/*
+ * 读取文件
+ * @param files 读取的文件
+ * @param coding 编码格式 (utf-8, gbk)
+ */
+function readParseFiles(files, coding, callback) {
   var data = [];
   // var files = [];
   // files.push(document.getElementById('file0').files[0], document.getElementById('file1').files[0], document.getElementById('file2').files[0], document.getElementById('file3').files[0]);
   var index = 0;
   ~(function () {
     var reader = new FileReader();
-    reader.readAsText(files[index], "gbk");
+    reader.readAsText(files[index], coding);
     index++;
     var context = arguments.callee;
     //读取完文件之后，执行下面这个回调函数：

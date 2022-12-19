@@ -1,6 +1,7 @@
 # encoding=utf-8
 import zipfile
 import os
+import re
 
 root_path = os.path.dirname(os.path.abspath(__file__))
 dir_path = root_path
@@ -27,10 +28,10 @@ for i, file in enumerate(file_list):
     if filetype.lower() not in ['png', 'jpg', 'jpeg', 'gif', 'bmp']:
         continue
     print(int(i / L * 100), end='%  ')
-    print(file, end=" -> ")
     index, name, field = file.split('_')[:3]
     index = index.strip('序号 ').zfill(3)
-    print(index, name, field)
+    field = (re.findall(r"(\d+) *题", field) or [field])[0]
+    print(file, " -> ", index, name, field, sep="\t")
     new_dir = os.path.join(dir_path, field)
     if not os.path.exists(new_dir):
         os.makedirs(new_dir)
@@ -65,5 +66,5 @@ for key, value in csvs.items():
     with open(f'output/{key}.csv', 'w') as f:
         f.write("\n".join(value))
 
-# for zip_ in zip_list:
-#     zip_dir(zip_)
+for zip_ in zip_list:
+    zip_dir(zip_)

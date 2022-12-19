@@ -88,7 +88,13 @@
         navbar: false,
     });
     viewer.show()
+
+    /*
+     * Render image 
+    */
     function render() {
+        console.log(data[index])
+
         // if (index != 0) {
         viewer.destroy()
         // }
@@ -131,9 +137,10 @@
         $('#info').text(data[index].join("  "))
 
     }
+
     $("#upload-btn").click(function () {
         var files = document.getElementById("file-value").files;
-        data = readParseFiles(files, function (d) {
+        data = readParseFiles(files, "utf-8", function (d) {
             data = d[0];
             console.log(data);
             data.sort(function (a, b) {
@@ -143,6 +150,7 @@
             render();
         });
     })
+
     $("#next").click(function () {
         let v = $('#value').val()
         data[index][3] = v;
@@ -194,106 +202,6 @@
     $("#small").click(function () { viewer.zoom(-0.2); })
     $("#jump_prev").click(function () { index--; render(); })
     $("#jump_next").click(function () { index++; render(); })
-    // $("#rotate1").click(function () {
-    //     $("#rotate0").click();
-
-    //     WIDTH = document.getElementById('img-container').clientWidth;
-    //     w = img.clientWidth;
-    //     h = img.clientHeight;
-    //     let cmd = "translate(" + WIDTH + "px,0px)"
-    //     cmd += " rotate(90deg)"
-    //     $("#img").css('transform', cmd)
-    //     img.setAttribute('height', WIDTH + "px");
-    //     img.setAttribute('width', null);
-    //     // console.log($("#img")[0])
-    // })
-    // $("#rotate2").click(function () {
-    //     $("#rotate0").click();
-
-    //     WIDTH = document.getElementById('img-container').clientWidth;
-    //     w = img.clientWidth;
-    //     h = img.clientHeight;
-    //     let cmd = "translate(0px," + w / h * WIDTH + "px)"
-    //     cmd += " rotate(-90deg)"
-    //     $("#img").css('transform', cmd)
-    //     img.setAttribute('height', WIDTH + "px");
-    //     img.setAttribute('width', null);
-    //     // img.style.hight = WIDTH + "px";
-
-    //     // console.log(w, h)
-    //     // console.log(cmd)
-    //     // console.log(w / h * WIDTH)
-    //     // console.log(WIDTH)
-    //     // console.log($("#img")[0])
-    // })
-    // $("#rotate0").click(function () {
-    //     console.log($("#img")[0])
-    //     WIDTH = document.getElementById('img-container').clientWidth;
-    //     HEIGHT = window.screen.height;
-    //     w = img.clientWidth;
-    //     h = img.clientHeight;
-    //     console.log(WIDTH, HEIGHT)
-    //     console.log(h, HEIGHT)
-    //     console.log("reset")
-    //     if (h > w) {
-
-    //         if (h > HEIGHT) {
-    //             img.setAttribute('width', null);
-    //             img.setAttribute('height', (HEIGHT * 0.9) + "px");
-    //             console.log("hhhhh")
-
-    //         } else {
-    //             img.setAttribute('width', "100%");
-    //             img.setAttribute('height', "");
-    //             console.log("nnn")
-    //         }
-
-    //     }
-    //     img.style.width = ""
-    //     img.style.height = ""
-    //     // $("#img").css('transform', null)
-    //     img.style.transform = '';
-    // })
-    // $("#big").click(function () {
-    //     console.log($("#img")[0])
-
-    //     // img.setAttribute('height', null);
-    //     if (img.style.transform == "") {
-    //         let w = img.style.width
-    //         if (w == "") {
-    //             img.style.width = "110%"
-    //         } else {
-    //             // img.setAttribute('width', "100%");
-    //             img.style.width = (parseInt(w.slice(0, w.length - 1)) + 10) + "%";
-    //         }
-    //     } else {
-    //         let w = img.height
-    //         console.log(w)
-    //         img.height = w + 10;
-    //         img.style.transform = img.style.transform + " translate(-10px,0px)"
-    //         // console.log(img.style.transform);
-    //     }
-    // })
-    // $("#small").click(function () {
-    //     console.log($("#img")[0])
-
-    //     // img.setAttribute('height', null);
-    //     if (img.style.transform == "") {
-    //         let w = img.style.width
-    //         if (w == "") {
-    //             img.style.width = "90%"
-    //         } else {
-    //             // img.setAttribute('width', "100%");
-    //             img.style.width = (parseInt(w.slice(0, w.length - 1)) - 10) + "%";
-    //         }
-    //     } else {
-    //         let w = img.height
-    //         console.log(w)
-    //         img.height = w - 10;
-    //         // img.style.transform = img.style.transform + " translate(10px,0px)"
-    //         // console.log(img.style.transform);
-    //     }
-    // })
     $(document).keyup(function (e) {
         console.log(e.keyCode);
         if (82 == e.keyCode && !e.shiftKey) {
@@ -301,102 +209,6 @@
         }
     });
     $("#rotate0").click();
-
-    // $("#test-table").bootstrapTable(testFunc());
-
-    // function testFunc(value) {
-    //     var test = {
-    //         toolbar: '#btn-action', //工具按钮用哪个容器
-    //         striped: true, //设置为 true 会有隔行变色效果
-    //         pagination: true, //设置为 true 会在表格底部显示分页条
-    //         paginationLoop: false, //设置为 true 启用分页条无限循环的功能。无效果
-    //         pageSize: 5, //如果设置了分页，页面数据条数
-    //         cache: true,
-    //         search: true, //是否启用搜索框
-    //         //			showToggle:true, //是否显示 切换试图（table/card）按钮
-    //         showPaginationSwitch: false, //是否显示 数据条数选择框。无效果
-    //         //			checkboxHeader:true, //设置false 将在列头隐藏check-all checkbox .
-    //         uniqueId: "id",
-    //         //			searchText:"搜索", //初始化搜索文字
-    //         selectItemName: "id",
-    //         //			showHeader:true, //是否显示列头
-    //         //			showFooter:false,//是否显示列脚
-    //         showRefresh: true, //是否显示 刷新按钮
-    //         showColumns: true, //是否显示 内容列下拉框
-    //         //			sortable: true,      //是否启用排序
-    //         sortOrder: "asc", //排序方式
-    //         sortName: "id", //需要排序的字段
-
-    //         //			clickToSelect:false,//设置true 将在点击行时，自动选择rediobox 和 checkbox
-    //         columns: [{
-    //             field: 'id',
-    //             title: 'ID',
-    //             sortable: true,
-    //             formatter: function (val, row, index) {
-    //                 return index + 1;
-    //             }
-    //         }, {
-    //             field: 'name',
-    //             title: '名称',
-    //             titleTooltip: "测试",
-    //         },
-    //         {
-    //             field: 'value',
-    //             title: '值'
-    //         },
-    //         ],
-    //     }
-    //     return test;
-    // };
-    // $("#upload-btn").click(function () {
-    //     var data = [];
-    //     var files = document.getElementById("file-value").files;
-    //     data = readParseFiles(files, function (d) {
-    //         data = d;
-    //         console.log(data);
-    //     });
-
-    //     console.log(data);
-    //     console.log(data[0]);
-        // var regp = new RegExp(".*,.*,.*,.*$");
-        // if (files.length) {
-        //     var file = files[0];
-
-        //     var reader = new FileReader(); //new一个FileReader实例
-        //     if (typeof FileReader == 'undefined') {
-        //         layer.alert("你的浏览器暂不支持该功能", { title: "提示", skin: "layui-layer-molv" });
-        //         file.setAttribute("disabled", "disabled");
-        //         return;
-        //     }
-        //     reader.readAsText(file);
-        //     reader.onload = function (f) {
-        //         //					var result = document.getElementById("result");
-        //         //显示文件
-        //         var relArr = this.result.split("\r\n");
-        //         console.log(relArr)
-        //         if (!$.isEmptyObject(relArr) && relArr.length > 1) {
-        //             for (var key = 1, len = relArr.length; key < len; key++) {
-        //                 var values = relArr[key];
-        //                 console.log(values)
-        //                 if (regp.test(values)) {
-        //                     alert("文件内容中有英文逗号，麻烦修改后再上传，含有英文逗号的内容是：" + values);
-        //                     return;
-        //                 }
-        //                 if (!$.isEmptyObject(values)) {
-        //                     var obj = {};
-        //                     var objArr = values.split(",");
-        //                     obj["name"] = objArr[0];
-        //                     obj["value"] = objArr[1];
-        //                     data.push(obj);
-        //                 }
-        //             }
-
-        //         }
-        //         console.log(data);
-        //         $("#test-table").bootstrapTable("load", data);
-        //     }
-        // }
-    // })
 </script>
 
 </html>

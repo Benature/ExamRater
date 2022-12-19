@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-excel_path = input('excel 文件名（带后缀）：')
+excel_path = input('问卷星 excel 文件名/路径（带后缀）：\n')
 df = pd.read_excel(excel_path)
 
 names = df['用户名'].tolist()
@@ -9,9 +9,7 @@ classes = df['班别'].tolist()
 
 name2class = dict(zip(names, classes))
 
-dir_path = './'
-dir_path = './66104114_附件'
-dir_path = '/Users/benaturewong/Downloads/66101467_附件'
+dir_path = input('附件路径：\n')
 file_list = os.listdir(dir_path)
 
 errors = []
@@ -33,6 +31,6 @@ for i, file in enumerate(file_list):
         errors.append(name)
 
 if errors:
-    print("没有这个人：")
+    print("没有这些人：")
     print(errors)
     input('回车结束程序')
