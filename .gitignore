@@ -1,4 +1,11 @@
 *.zip
 *.csv
+*.pdf
 html/data/*
 !html/data/.gitkeep
+
+# pyinstaller
+**/build
+**/dist
+*.spec
+*.exe

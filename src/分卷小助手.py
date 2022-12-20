@@ -3,13 +3,12 @@ import zipfile
 import os
 import re
 
-root_path = os.path.dirname(os.path.abspath(__file__))
-dir_path = root_path
+# root_path = os.path.dirname(os.path.abspath(__file__))
 
-if dir_path[0] == '/':
-    dir_path = input('请把解压后的文件夹拖到此处(然后回车)\n')
-    dir_path = dir_path.replace('\\', '').strip()
-    dir_path = os.path.abspath(dir_path)
+dir_path = input('请把解压后的文件夹拖到此处(然后回车)\n')
+if dir_path.startswith('"'):
+    dir_path = dir_path.strip('"')
+dir_path = os.path.abspath(dir_path)
 
 print("准备开始整理该文件夹下图片")
 print(dir_path)
@@ -57,12 +56,11 @@ def zip_dir(dir_path):
     z.close()
 
 
-if not os.path.exists(os.path.join(root_path, 'output')):
-    os.mkdir(os.path.join(root_path, 'output'))
-
 for key, value in csvs.items():
-    with open(f'output/{key}.csv', 'w', encoding="utf-8") as f:
+    with open(os.path.join(dir_path, f'{key}.csv'), 'w',
+              encoding="utf-8") as f:
         f.write("\n".join(value))
 
+input("是否需要生成压缩包文件？若是，请摁下回车。若否，请直接关闭该窗口。")
 for zip_ in zip_list:
     zip_dir(zip_)
