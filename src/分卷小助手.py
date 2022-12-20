@@ -14,8 +14,6 @@ if dir_path[0] == '/':
 print("准备开始整理该文件夹下图片")
 print(dir_path)
 
-# dir_path = '60524125_附件 (1)'
-
 file_list = os.listdir(dir_path)
 L = len(file_list)
 
@@ -38,9 +36,9 @@ for i, file in enumerate(file_list):
         zip_list.append(new_dir)
     filename = f"{index}_{name}.{filetype}"
     os.rename(os.path.join(dir_path, file), os.path.join(new_dir, filename))
-    # fpath = os.path.join(dir_path, field, filename)
-    fpath = os.path.join('./data', field, filename)
-    csv_line = f"{index}, {name}, {fpath},-1"
+    fpath = os.path.join(dir_path, field, filename)
+    # fpath = os.path.join('./data', field, filename)
+    csv_line = f"{index},{name},{fpath},-1"
     if field not in csvs.keys():
         csvs[field] = [csv_line]
     else:
@@ -63,7 +61,7 @@ if not os.path.exists(os.path.join(root_path, 'output')):
     os.mkdir(os.path.join(root_path, 'output'))
 
 for key, value in csvs.items():
-    with open(f'output/{key}.csv', 'w') as f:
+    with open(f'output/{key}.csv', 'w', encoding="utf-8") as f:
         f.write("\n".join(value))
 
 for zip_ in zip_list:

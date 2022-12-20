@@ -13,6 +13,7 @@
     <script src="js/bootstrap-table.min.js"></script>
     <script src="js/bootstrap-editable.js"></script>
     <script src="js/bootstrap-table-editable.js"></script>
+    <script lang="javascript" src="js/xlsx.full.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/viewer.css" />
     <script type="text/javascript" src="js/viewer.js"></script>
     <meta charset="UTF-8">
@@ -48,6 +49,7 @@
 
     <div class="d-flex flex-row justify-content-between" style="width:100%">
         <div id="img-container" style="width:80%; height: 50rem;">
+            <div><a id="info-path" style="font-size: 10px; color: black; margin-left: 10px;"></a></div>
             <img src="intro.png" id="img" style="z-index: -10;width:40px">
         </div>
         <div style="width:12rem; margin: 40px 10px;">
@@ -59,7 +61,6 @@
                 <button class="btn btn-secondary" style="margin-bottom:4px;" id="rotate0">重置</button>
             </div>
             <br />
-            <!-- <form> -->
             <p id="warning" style="color:red"></p>
             <br />
             <div class="d-flex">
@@ -67,12 +68,16 @@
                 <button class="btn btn-secondary" style="margin-bottom:4px; margin-left:10px"
                     id="jump_next">下一张</button>
             </div>
-            <a id="info"></a>
             <div class="d-flex flex-row">
                 <input type="value" id="value" class="form-control" style="width:4rem">
                 <button class="btn btn-primary" id="next" style="margin-left:5px;">判分</button>
             </div>
+            <div><a id="info-id"></a></div>
+            <div><a id="info-name"></a></div>
+            <div><a id="info-score"></a></div>
+
             <br />
+            <div> 跳转到第__份答卷</div>
             <div class="d-flex flex-row">
                 <input type="value" id="jumpIndex" class="form-control" style="width:3rem;">
                 <button class="btn btn-secondary" id="jump" style="margin-left:5px;">跳转</button>
@@ -141,7 +146,11 @@
         // $('.viewer-move.viewer-transition').attr('src', data[index][2]);
         console.log(data[index])
         // $("#rotate0").click();
-        $('#info').text(data[index].join("  "))
+        $('#info').text(data[index].join("|"));
+        $('#info-id').text("序号：" + data[index][0]);
+        $('#info-name').text("姓名：" + data[index][1]);
+        $('#info-score').text("分数：" + (data[index][3] == -1 ? "未判分" : data[index][3]));
+        $('#info-path').text(data[index][2]);
 
     }
 
@@ -183,21 +192,10 @@
         render();
     })
     $("#save").click(function () {
-        var lineArray = [];
-        data.forEach(function (infoArray, index) {
-            var line = infoArray.join(",");
-            lineArray.push(line);
-        });
-        var csvContent = lineArray.join("\n");
-        console.log(csvContent)
-
-
-        var a = document.createElement('a');
-        var blob = new Blob([csvContent], { 'type': 'application\/octet-stream' });
-        a.href = window.URL.createObjectURL(blob);
-        a.download = '阅卷成绩-' + FileName + '.csv';
-        a.click()
-
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "成绩-" + FileName);
+        XLSX.writeFile(workbook, '阅卷成绩-' + FileName + '.xlsx', { compression: true });
     })
 
     $('#value').keyup(function (e) {

@@ -1,3 +1,4 @@
+*.zip
 *.csv
 html/data/*
 !html/data/.gitkeep

@@ -70,7 +70,11 @@ function csv2array(data, delimeter) {
 
   while (c != eof) {
     // skip whitespaces
-    while (c == " " || c == "\t" || c == "\r") {
+    while (
+      // c == " " ||
+      c == "\t" ||
+      c == "\r"
+    ) {
       c = data.charAt(++i); // read next char
     }
 
@@ -111,7 +115,7 @@ function csv2array(data, delimeter) {
         c != eof &&
         c != delimeter &&
         c != newline &&
-        c != " " &&
+        // c != " " &&
         c != "\t" &&
         c != "\r"
       ) {
@@ -122,10 +126,15 @@ function csv2array(data, delimeter) {
 
     // add the value to the array
     if (array.length <= row) array.push(new Array());
+    value = value.replace(/(^\s*)|(\s*$)/g, ""); // remove blanks
     array[row].push(value);
 
     // skip whitespaces
-    while (c == " " || c == "\t" || c == "\r") {
+    while (
+      // c == " " ||
+      c == "\t" ||
+      c == "\r"
+    ) {
       c = data.charAt(++i);
     }
 
